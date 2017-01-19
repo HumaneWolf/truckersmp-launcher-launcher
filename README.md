@@ -10,7 +10,9 @@ This is a launcher for the official [TruckersMP](https://truckersmp.com) launche
 
 ## Screenshots  
 
-Coming soon
+![Official launcher when using this launcher](https://raw.githubusercontent.com/HumaneWolf/truckersmp-launcher-launcher/master/launcher.png)
+
+![Settings menu](https://raw.githubusercontent.com/HumaneWolf/truckersmp-launcher-launcher/master/settings.png)
 
 
 ## Download
