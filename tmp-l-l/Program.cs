@@ -56,6 +56,7 @@ namespace tmp_l_l
                 }
             }
 
+            r = LLR.GetRegistry("otherparams");
             //other
             if (r != null)
             {
