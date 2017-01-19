@@ -22,4 +22,4 @@ This is a launcher for the official [TruckersMP](https://truckersmp.com) launche
 ## Links  
 
 * [TruckersMP Website](https://truckersmp.com/)  
-* Forum Topic (coming)
+* [Forum Topic](https://forum.truckersmp.com/index.php?/topic/42735-truckersmp-launcher-launcher/)
