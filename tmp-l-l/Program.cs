@@ -20,7 +20,7 @@ namespace tmp_l_l
             if (tmpDir == null)
             {
                 //Show error.
-                MessageBox.Show("Could not find TruckersMP install directory.",
+                MessageBox.Show("Could not find the TruckersMP install directory.",
                     "TruckersMP Not Installed",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
