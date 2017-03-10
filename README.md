@@ -6,6 +6,7 @@ This is a launcher for the official [TruckersMP](https://truckersmp.com) launche
 
 * Nointro and other launch parameters.  
 * The ability to launch single player from the TruckersMP Launcher.
+* Displays a list over all servers in the launcher.
 
 
 ## Screenshots  
