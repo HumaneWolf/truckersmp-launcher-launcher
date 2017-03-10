@@ -64,6 +64,20 @@ namespace tmp_l_l
             {
                 parameters.Text = r;
             }
+
+            //Server list
+            r = LLR.GetRegistry("servers");
+            if (r != null)
+            {
+                if (r.Equals("true", StringComparison.OrdinalIgnoreCase))
+                {
+                    displayServers.Checked = true;
+                }
+            }
+            else
+            {
+                displayServers.Checked = true;
+            }
         }
 
         //Close button
@@ -104,8 +118,18 @@ namespace tmp_l_l
             //other
             LLR.SetRegistry("otherparams", parameters.Text);
 
+            //server list
+            if (displayServers.Checked == true)
+            {
+                LLR.SetRegistry("servers", "true");
+            }
+            else
+            {
+                LLR.SetRegistry("servers", "false");
+            }
+
             //Then tell the user we've saved shit.
-            MessageBox.Show("The settings have been saved.\nYou will need to restart the launcher for launch parameters to apply.",
+            MessageBox.Show("The settings have been saved.\nYou will need to restart the launcher for the changes to apply.",
                     "Saved",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);

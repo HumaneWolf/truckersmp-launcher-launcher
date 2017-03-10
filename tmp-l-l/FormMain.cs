@@ -4,12 +4,14 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Text;
+using System.ComponentModel;
 
 namespace tmp_l_l
 {
     public partial class FormMain : Form
     {
         //Variables
+        bool displayServers = true;
         Boolean opened = false; //Has the launcher opened yet?
         string atsPath = null; //ATS path   
         string etsPath = null; //ETS2 path   
@@ -37,12 +39,62 @@ namespace tmp_l_l
             {
                 buttonEtsSP.Visible = false;
             }
+
+            //Load server list settings
+            string tempServers = LLR.GetRegistry("servers");
+            if (tempServers != null)
+            {
+                if (tempServers.Equals("false", StringComparison.OrdinalIgnoreCase))
+                {
+                    displayServers = false;
+                }
+            }
         }
 
         //On load
         private void FormMain_onLoad(object sender, EventArgs e)
         {
+            //Hide the UI until the launcher is up
+            this.Opacity = 0;
+
+            //Force to be topmost.
             this.TopMost = true;
+
+            //Deal with server list stuff if it's enabled.
+            if (displayServers)
+            {
+                //Update server list
+                ServerList.updateServerList();
+
+                //Add data to the server list.
+                dataGridViewServers.AutoGenerateColumns = false;
+                dataGridViewServers.AutoSize = true;
+                dataGridViewServers.DataSource = ServerList.list;
+                //Column: name
+                DataGridViewColumn col = new DataGridViewTextBoxColumn();
+                col.DataPropertyName = "colName";
+                col.Name = "Name";
+                dataGridViewServers.Columns.Add(col);
+                //Column: Players
+                col = new DataGridViewTextBoxColumn();
+                col.DataPropertyName = "colPlayers";
+                col.Name = "Players";
+                dataGridViewServers.Columns.Add(col);
+                //Column: Queue
+                col = new DataGridViewTextBoxColumn();
+                col.DataPropertyName = "colQueue";
+                col.Name = "Queue";
+                dataGridViewServers.Columns.Add(col);
+
+                //Automaticly resize the height of the rows when necessary
+                dataGridViewServers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            }
+            else
+            {
+                //hide shit
+                dataGridViewServers.Visible = false;
+                labelToggleServers.Visible = false;
+            }
         }
 
         //Define the things necessary for window position
@@ -69,7 +121,7 @@ namespace tmp_l_l
         private static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
 
-        //Timer: Keep the window we create over the TruckersMP Launcher Window
+        //Timer: Quick timer, 0.2 sec
         private void timer1_Tick(object sender, EventArgs e)
         {
             IntPtr hWnd = FindWindow(null, "TruckersMP Launcher");
@@ -96,6 +148,7 @@ namespace tmp_l_l
             {
                 //If it is open, make sure that the opened var is updated.
                 opened = true;
+                this.Opacity = 100;
             }
 
             //If the window (launcher) is minimized or not in focus.
@@ -103,16 +156,28 @@ namespace tmp_l_l
                 || !(GetActiveWindowTitle().Equals("TruckersMP Launcher", StringComparison.OrdinalIgnoreCase)
                 || GetActiveWindowTitle().Equals("TruckersMP Launcher Launcher", StringComparison.OrdinalIgnoreCase)))
             {
-                // minimize the overlay too.
-                this.WindowState = FormWindowState.Minimized;
+                //No longer force the launcher launcher to be at the top
+                this.TopMost = false;
             }
             else
             {
-                this.WindowState = FormWindowState.Normal;
+                //Force the launcher launcher to be at the top above hte launcher again.
+                this.TopMost = true;
+
                 this.Location = new Point(rect.X, rect.Y);
 
                 x = rect.X;
                 y = rect.Y;
+            }
+        }
+
+        //Timer: Long timer, 30 sec
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (displayServers)
+            {
+                //Update server data
+                ServerList.updateServerList();
             }
         }
 
@@ -145,6 +210,19 @@ namespace tmp_l_l
             FormSettings settings = new FormSettings(x, y);
 
             settings.Show();
+        }
+
+        //Toggle the server list.
+        private void labelToggleServers_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewServers.Visible == true)
+            {
+                dataGridViewServers.Visible = false;
+            }
+            else
+            {
+                dataGridViewServers.Visible = true;
+            }
         }
 
 
