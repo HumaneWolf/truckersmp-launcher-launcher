@@ -156,13 +156,13 @@ namespace tmp_l_l
                 || !(GetActiveWindowTitle().Equals("TruckersMP Launcher", StringComparison.OrdinalIgnoreCase)
                 || GetActiveWindowTitle().Equals("TruckersMP Launcher Launcher", StringComparison.OrdinalIgnoreCase)))
             {
-                //No longer force the launcher launcher to be at the top
-                this.TopMost = false;
+                //Minimize window
+                this.WindowState = FormWindowState.Minimized;
             }
             else
             {
-                //Force the launcher launcher to be at the top above hte launcher again.
-                this.TopMost = true;
+                //Make it return
+                this.WindowState = FormWindowState.Normal;
 
                 this.Location = new Point(rect.X, rect.Y);
 
